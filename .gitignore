@@ -1,0 +1,14 @@
+.vscode/
+node_modules/
+cypress/
+package-lock.json
+.editorconfig
+.prettierrc.json
+eslint.config.ts
+env.d.ts
+tsconfig.app.json
+tsconfig.node.json
+tsconfig.vitest.json
+vite.config.ts
+cypress.config.ts
+vitest.config.ts
