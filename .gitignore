@@ -1,14 +1,25 @@
-.vscode/
-node_modules/
-cypress/
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
 package-lock.json
-.editorconfig
-.prettierrc.json
-eslint.config.ts
-env.d.ts
-tsconfig.app.json
-tsconfig.node.json
-tsconfig.vitest.json
-vite.config.ts
-cypress.config.ts
-vitest.config.ts
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
