@@ -179,6 +179,7 @@ const handleLogin = async () => {
         8px 8px 16px var(--dome-shadow-dark),
         -8px -8px 16px var(--dome-shadow-light);
     letter-spacing: 0.5px;
+    outline: none;
 }
 
 .login-button:hover {
@@ -193,6 +194,14 @@ const handleLogin = async () => {
         inset 5px 5px 10px var(--dome-shadow-dark),
         inset -5px -5px 10px var(--dome-shadow-light);
     transform: translateY(2px);
+}
+
+.login-button:focus {
+    box-shadow: 
+        4px 4px 8px var(--dome-shadow-dark),
+        -4px -4px 8px var(--dome-shadow-light);
+    transform: translateY(1px);
+    background-color: var(--dome-focused-blue);
 }
 
 .login-button.loading {
@@ -222,16 +231,20 @@ const handleLogin = async () => {
 
 .login-info p.error {
     background: #E8E8E8;
-    color: #EF4444;
+    color: var(--error-color);
     box-shadow: 
         inset 3px 3px 6px #c4c4c4,
         inset -3px -3px 6px #ffffff;
 }
 
+#login-dome-website{
+    outline: none;
+}
+
 #login-dome-website img{
     box-shadow: 
-        5px 5px 10px var(--dome-shadow-dark),
-        -5px -5px 10px var(--dome-shadow-light);
+        6px 6px 10px var(--dome-shadow-dark),
+        -6px -6px 10px var(--dome-shadow-light);
     border-radius: 50%;
     padding: 10px;
     transition: all 0.3s ease;
@@ -239,8 +252,8 @@ const handleLogin = async () => {
 
 #login-dome-website img:hover{
     box-shadow: 
-        3px 3px 8px var(--dome-shadow-dark),
-        -3px -3px 8px var(--dome-shadow-light);
+        3px 3px 5px var(--dome-shadow-dark),
+        -3px -3px 5px var(--dome-shadow-light);
 }
 
 #login-dome-website img:active{
@@ -248,6 +261,13 @@ const handleLogin = async () => {
         inset 5px 5px 10px var(--dome-shadow-dark),
         inset -5px -5px 10px var(--dome-shadow-light);
     transform: translateY(2px);
+}
+
+#login-dome-website:focus img{
+    box-shadow: 
+        3px 3px 5px var(--dome-shadow-dark),
+        -3px -3px 5px var(--dome-shadow-light);
+    background-color: var(--dome-focused-blue);
 }
 
 </style>
