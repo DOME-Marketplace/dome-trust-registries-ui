@@ -51,13 +51,11 @@ const getListFromAPI = async (configuration?: RegistryConfiguration): Promise<vo
     try{
         const config = configuration ?? props.registry_config
         const url = trustedRegistry.host+trustedRegistry['main-uri']+config?.uri;
-        console.log("RETRIEVING LIST FROM API: " + url)
         const response = await apiRequest(
             url,
             'GET'
         );
         data.value = response;
-        console.log(response); 
         list.value = response.items ?? [];
         pages.value = {
             first: URL.parse(response.links.first) ?? undefined,
@@ -65,11 +63,9 @@ const getListFromAPI = async (configuration?: RegistryConfiguration): Promise<vo
             next: URL.parse(response.links.next) ?? undefined,
             prev: URL.parse(response.links.prev) ?? undefined
         }
-        console.log(pages.value.first)
         totalPages.value = (Number(pages.value.last?.searchParams.get('page[after]')) ?? 0) + 1
     } catch (error) {
         console.error(error);
-        console.trace(error);
     }
 }
 
@@ -86,7 +82,6 @@ const getFirstList = async () => {
         next: URL.parse(response.links.next) ?? undefined,
         prev: URL.parse(response.links.prev) ?? undefined
     };
-    console.log(response);
 }
 
 const getLastList = async () => {
@@ -102,7 +97,6 @@ const getLastList = async () => {
         next: URL.parse(response.links.next) ?? undefined,
         prev: URL.parse(response.links.prev) ?? undefined
     }
-    console.log(response)
 }
 
 const getNextList = async () => {
@@ -118,7 +112,6 @@ const getNextList = async () => {
         next: URL.parse(response.links.next) ?? undefined,
         prev: URL.parse(response.links.prev) ?? undefined
     }
-    console.log(response)
 }
 
 const getPrevList = async () => {
@@ -134,13 +127,11 @@ const getPrevList = async () => {
         next: URL.parse(response.links.next) ?? undefined,
         prev: URL.parse(response.links.prev) ?? undefined
     }
-    console.log(response)
 }
 
 const getIndexList = async (payload: { index: number }) => {
     const url = pages.value.first
     url?.searchParams.set("page[after]", String(payload.index - 1));
-    console.log(url?.href)
     const response = await apiRequest(
         url!.href,
         'GET'
@@ -153,7 +144,6 @@ const getIndexList = async (payload: { index: number }) => {
         next: URL.parse(response.links.next) ?? undefined,
         prev: URL.parse(response.links.prev) ?? undefined
     }
-    console.log(response)
 }
 
 const openRegistryDetails = (id?: string): void => {

@@ -36,3 +36,7 @@ export function makeCursorWait(): void{
 export function stopCursorWaiting(): void{
     document.body.classList.remove("waiting");
 }
+
+export function trimArray(array: string[]): string[] {
+    return array.map(item => item.trim()).filter(item => item.length > 0);
+}

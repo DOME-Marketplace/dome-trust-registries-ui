@@ -92,12 +92,13 @@ export type Schema = {
 /// Trusted Services ///
 export type Services = {
     client_id?: string;
-    redirect_uris?: string[];
+    redirectUris?: string[];
     scopes?: string[];
-    client_authentication_methods?: string[];
-    require_authorization_consent?: boolean;
-    require_proof_key?: boolean;
-    jwk_set_url?: string;
-    token_endpoint_authentication_signing_algorithm?: string;
-    authorization_grant_types?: string
+    clientAuthenticationMethods?: string[];
+    requireAuthorizationConsent?: boolean;
+    postLogoutRedirectUris?: string[];
+    requireProofKey?: boolean;
+    jwkSetUrl?: string;
+    tokenEndpointAuthenticationSigningAlgorithm?: string;
+    authorizationGrantTypes?: string[]
 }

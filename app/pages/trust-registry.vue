@@ -67,8 +67,14 @@ onMounted(() => {
     host.value = trustedRegistry.host;
     url.value = trustedRegistry['main-uri'];
     trustedLists.value = trustedRegistry['trusted-lists'];
-    selected.value = trustedLists.value[0]?.id ?? '';
-    router.replace({});
+    const hash = window.location.hash;
+    if(hash) {
+        selected.value = hash.split("#/")[1] ?? '';
+    }else{
+        selected.value = trustedLists.value[0]?.id ?? '';
+    }
+
+    window.location.hash = selected.value;
 });
 
 const listItemClass = (item: RegistryConfiguration): string => {
@@ -108,12 +114,13 @@ const openDetails = async(payload: { id?: string, type?: string }) => {
 
 const closeDetails = () => {
     showDetails.value = false;
+    router.replace({})
 };
 
 const closeSavedDetails = () => {
-    // window.location.reload();
     content.value?.getListFromAPI();
     showDetails.value = false;
+    router.replace({})
 }
 </script>
 
@@ -186,7 +193,7 @@ const closeSavedDetails = () => {
     z-index: 9999;
 }
 .modal-card{
-    width: min(800px, 90vw);
+    /* width: min(800px, 90vw); */
     background: var(--dome-blue);
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
@@ -199,4 +206,8 @@ const closeSavedDetails = () => {
 .details-transition-enter-active, .details-transition-leave-active{ transition: transform .28s ease, opacity .28s ease; }
 .details-transition-enter-from, .details-transition-leave-to{ transform: translateY(-30vh); opacity: 0.5; }
 .modal-loading{ color: var(--dome-blue-light); font-weight: bold; padding: 16px; text-align: center; }
+
+a{
+    text-decoration: none;
+}
 </style>

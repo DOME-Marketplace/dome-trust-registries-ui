@@ -10,7 +10,7 @@
                         placeholder="DLT Address"
                         v-model="accessNode.dlt_address"
                         required
-                        :class="{ 'loading': update_registry || isLoading }"
+                        :class="{ 'loading': isLoading, 'disabled': update_registry }"
                         :disabled="update_registry || isLoading"
                         :tabindex="update_registry ? -1 : 0"
                     />
@@ -35,9 +35,6 @@
             <button class="detail-button" :class="{ 'loading': isLoading }" v-on:click="saveRegistry">
                 <span class="material-symbols-outlined">save_as</span>&nbsp;&nbsp;Save
             </button>
-            <!-- <button class="detail-button" style="color: var(--error-color)" :class="{ 'loading': isLoading }" v-on:click="deleteRegistry">
-                <span class="material-symbols-outlined">delete_forever</span>&nbsp;&nbsp;Delete
-            </button> -->
         </div>
     </div>
 </template>
@@ -60,7 +57,6 @@ watch(
         url.value = props_url as string;
         if(props_registry == undefined) return;
         accessNode.value = props_registry as AccessNode;
-        console.log(route.query.id);
         update_registry.value = Boolean(route.query.id);
     },
     { immediate: true }
@@ -93,7 +89,6 @@ const saveRegistry = async() => {
             method,
             accessNode.value
         );
-        console.log(response);
         window.alert('Access Node saved successfully');
         emit('close-details');
     } catch (error) {

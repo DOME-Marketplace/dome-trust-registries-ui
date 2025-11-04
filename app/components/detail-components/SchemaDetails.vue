@@ -10,7 +10,7 @@
                         placeholder="Schema ID"
                         v-model="schema.id"
                         required
-                        :class="{ 'loading': update_registry || isLoading }"
+                        :class="{ 'loading': isLoading, 'disabled': update_registry }"
                         :disabled="update_registry || isLoading"
                         :tabindex="update_registry ? -1 : 0"
                     />
@@ -63,7 +63,7 @@
 
 <script lang="ts" setup>
 import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorWaiting } from '~/assets/scripts/utils';
-import type { AccessNode, DetailsProps, Schema } from '~/assets/types/types';
+import type { DetailsProps, Schema } from '~/assets/types/types';
 
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');
@@ -83,7 +83,6 @@ watch(
         url.value = props_url as string;
         if(props_registry == undefined) return;
         schema.value = props_registry as Schema;
-        console.log(route.query.id);
         update_registry.value = Boolean(route.query.id);
     },
     { immediate: true }
@@ -96,13 +95,6 @@ watch(
     },
     {
         immediate: true
-    }
-);
-
-watch(
-    () => file,
-    (f) => {
-        console.log(f);
     }
 );
 
@@ -124,7 +116,6 @@ const saveRegistry = async() => {
             method,
             schema.value
         );
-        console.log(response);
         window.alert('Schema saved successfully');
         emit('close-details');
     } catch (error) {
@@ -151,7 +142,6 @@ const deleteRegistry = async() => {
             method,
             schema.value
         );
-        console.log(response);
         window.alert('Access Node saved successfully');
         emit('close-details');
     } catch (error) {

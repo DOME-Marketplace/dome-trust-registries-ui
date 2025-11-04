@@ -70,10 +70,6 @@ const isCurrentIndex = (index: number): boolean => {
     return current.value === index
 }
 
-onMounted(() => {
-    console.log(hasPages());
-})
-
 </script>
 
 <style scoped>

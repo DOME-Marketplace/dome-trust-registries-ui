@@ -29,6 +29,14 @@
                 @details-saved="stopLoading"
                 v-if="type === 'schemas'"
             />
+            <ServiceDetails
+                :registry="registry"
+                :url="url"
+                @close-details="closeSavedDetails"
+                @saving-details="startLoading"
+                @details-saved="stopLoading"
+                v-if="type === 'services'"
+            />
         </div>
     </div>
 </template>
@@ -37,6 +45,7 @@
 import AccessNodeDetails from '~/components/detail-components/AccessNodeDetails.vue';
 import ParticipantDetails from './detail-components/ParticipantDetails.vue';
 import SchemaDetails from './detail-components/SchemaDetails.vue';
+import ServiceDetails from './detail-components/ServiceDetails.vue';
 
 const router = useRouter();
 
@@ -68,7 +77,6 @@ const startLoading = () => {
 }
 
 const stopLoading = () => {
-    console.log('Stop loading')
     isLoading.value = false;
 }
 </script>
