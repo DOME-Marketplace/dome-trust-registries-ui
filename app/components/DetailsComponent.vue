@@ -1,7 +1,7 @@
 <template>
     <div class="registry-details">
         <div id="details-header">
-            <span class="material-icons arrow-back" tabindex="0" @click="closeDetails">close</span>
+            <span class="material-icons arrow-back" :class="{ 'loading': isLoading }" tabindex="0" @click="closeDetails">close</span>
             <div id="details-title">{{ title }}</div>
         </div>
         <div id="details-body">
@@ -9,13 +9,25 @@
                 :registry="registry"
                 :url="url"
                 @close-details="closeSavedDetails"
+                @saving-details="startLoading"
+                @details-saved="stopLoading"
                 v-if="type === 'access-nodes'"
             />
             <ParticipantDetails
                 :registry="registry"
                 :url="url"
                 @close-details="closeSavedDetails"
+                @saving-details="startLoading"
+                @details-saved="stopLoading"
                 v-if="type === 'participants'"
+            />
+            <SchemaDetails
+                :registry="registry"
+                :url="url"
+                @close-details="closeSavedDetails"
+                @saving-details="startLoading"
+                @details-saved="stopLoading"
+                v-if="type === 'schemas'"
             />
         </div>
     </div>
@@ -24,6 +36,7 @@
 <script lang="ts" setup>
 import AccessNodeDetails from '~/components/detail-components/AccessNodeDetails.vue';
 import ParticipantDetails from './detail-components/ParticipantDetails.vue';
+import SchemaDetails from './detail-components/SchemaDetails.vue';
 
 const router = useRouter();
 
@@ -34,19 +47,29 @@ const props = defineProps<{
     type: string
 }>();
 
+const isLoading: Ref<boolean> = ref(false);
+
 const emit = defineEmits<{
     (e: 'close'): void;
     (e: 'save'): void;
 }>();
 
 const closeDetails = () => {
-    router.replace({});
+    if(isLoading.value) return;
     emit('close');
 };
 
 const closeSavedDetails = () => {
-    router.replace({});
     emit('save');
+}
+
+const startLoading = () => {
+    isLoading.value = true;
+}
+
+const stopLoading = () => {
+    console.log('Stop loading')
+    isLoading.value = false;
 }
 </script>
 
@@ -95,9 +118,9 @@ const closeSavedDetails = () => {
     z-index: 2;
 }
 
-.arrow-back:hover,
-.arrow-back:focus,
-.arrow-back:active{
+.arrow-back:not(.loading):hover,
+.arrow-back:not(.loading):focus,
+.arrow-back:not(.loading):active{
     /* font-size: 35px; */
     box-shadow: 
         inset 5px 5px 10px var(--dome-shadow-dark),

@@ -10,7 +10,8 @@
                         placeholder="DLT Address"
                         v-model="accessNode.dlt_address"
                         required
-                        :class="{ 'loading': update_registry }"
+                        :class="{ 'loading': update_registry || isLoading }"
+                        :disabled="update_registry || isLoading"
                         :tabindex="update_registry ? -1 : 0"
                     />
                 </div>
@@ -24,6 +25,8 @@
                         placeholder="Name"
                         v-model="accessNode.name"
                         required
+                        :class="{ 'loading': isLoading }"
+                        :disabled="isLoading"
                     />
                 </div>
             </div>
@@ -40,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { apiRequest, checkValidAttributes, pageBack } from '~/assets/scripts/utils';
+import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorWaiting } from '~/assets/scripts/utils';
 import type { AccessNode, DetailsProps } from '~/assets/types/types';
 
 const update_registry: Ref<boolean> = ref(false);
@@ -74,8 +77,11 @@ watch(
 );
 
 const saveRegistry = async() => {
+    if(isLoading.value) return;
     try{
         isLoading.value = true;
+        makeCursorWait();
+        emit('saving-details');
         if(!url.value) throw 'Empty URL';
         if(!checkValidAttributes(accessNode.value)) throw 'The inserted values are not valid';
         let method: string;
@@ -92,12 +98,17 @@ const saveRegistry = async() => {
         emit('close-details');
     } catch (error) {
         window.alert(error);
+        emit('details-saved');
     } finally {
         isLoading.value = false;
+        stopCursorWaiting();
+        emit('details-saved');
     }
 }
 
 const emit = defineEmits<{
     (event: 'close-details'): void;
+    (event: 'saving-details'): void;
+    (event: 'details-saved'): void;
 }>();
 </script>

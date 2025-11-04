@@ -13,7 +13,7 @@
         </div>
         <div id="trusted-lists-content">
             <TrustRegistryContent :key="$route.fullPath + '-' + selected" :registry_config="getSelectedRegistry()"
-            @open-details="openDetails"/>
+            @open-details="openDetails" ref="content"/>
         </div>
         <div>
             <transition name="details-fade">
@@ -60,6 +60,8 @@ const loadingDetails: Ref<boolean> = ref(false);
 
 const router = useRouter();
 const route = useRoute();
+
+const content = ref<InstanceType<typeof TrustRegistryContent> | null>(null);
 
 onMounted(() => {
     host.value = trustedRegistry.host;
@@ -109,7 +111,8 @@ const closeDetails = () => {
 };
 
 const closeSavedDetails = () => {
-    window.location.reload();
+    // window.location.reload();
+    content.value?.getListFromAPI();
     showDetails.value = false;
 }
 </script>

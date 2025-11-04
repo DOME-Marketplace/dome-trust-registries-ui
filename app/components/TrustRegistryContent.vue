@@ -47,8 +47,9 @@ const route = useRoute();
 const pages: Ref<RegistryPages> = ref({});
 const totalPages: Ref<number> = ref(1);
 
-const getListFromAPI = async (config: RegistryConfiguration) => {
+const getListFromAPI = async (configuration?: RegistryConfiguration): Promise<void> => {
     try{
+        const config = configuration ?? props.registry_config
         const url = trustedRegistry.host+trustedRegistry['main-uri']+config?.uri;
         console.log("RETRIEVING LIST FROM API: " + url)
         const response = await apiRequest(
@@ -182,6 +183,10 @@ watch(
     },
     { immediate: true }
 );
+
+defineExpose({
+    getListFromAPI
+});
 </script>
 
 <style scoped>

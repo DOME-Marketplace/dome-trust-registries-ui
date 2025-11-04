@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { sleep } from '~/assets/scripts/utils';
+import { makeCursorWait, sleep, stopCursorWaiting } from '~/assets/scripts/utils';
 import { useRouter } from 'vue-router';
 
 const username: Ref<string> = ref('')
@@ -68,6 +68,7 @@ const handleLogin = async () => {
   
   // Set loading state
   isLoading.value = true
+  makeCursorWait();
   
   // Simulate API call
   try {
@@ -81,6 +82,7 @@ const handleLogin = async () => {
     loginMessageType.value = 'error'
   } finally {
     isLoading.value = false
+    stopCursorWaiting();
     
     // Clear message after 3 seconds
     setTimeout(() => {
@@ -204,10 +206,10 @@ const handleLogin = async () => {
     background-color: var(--dome-focused-blue);
 }
 
-.login-button.loading {
+/* .login-button.loading {
     opacity: 0.7;
     cursor: not-allowed;
-}
+} */
 
 /* Login Info Messages */
 .login-info {

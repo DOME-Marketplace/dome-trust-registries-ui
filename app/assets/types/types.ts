@@ -85,7 +85,7 @@ export type Participant = {
 /// Trusted Schemas ///
 export type Schema = {
     id?: string;
-    schema_data?: string;
+    schemaData?: string;
 }
 
 

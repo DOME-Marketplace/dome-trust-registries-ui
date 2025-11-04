@@ -28,3 +28,11 @@ export function pageBack(to?: string): void {
     if(to) useRouter().replace(to);
     else useRouter().back();
 }
+
+export function makeCursorWait(): void{
+    document.body.classList.add("waiting");
+}
+
+export function stopCursorWaiting(): void{
+    document.body.classList.remove("waiting");
+}
