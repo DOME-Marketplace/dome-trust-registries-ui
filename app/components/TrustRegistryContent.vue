@@ -5,7 +5,9 @@
         </div>
         <div id="content-body" v-if="data">
             <div class="registry-container">
-                <button class="registry-button" v-on:click="openRegistryDetails()"><span class="material-icons">add_circle</span>Add registry</button>
+                <button class="registry-button" v-on:click="openRegistryDetails()">
+                    <span class="material-icons">add_circle</span>Add registry
+                </button>
             </div>
             <div class="registry-container pages">
                 <PagesCountComponent 

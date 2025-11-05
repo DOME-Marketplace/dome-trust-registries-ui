@@ -72,6 +72,12 @@ body{
     margin-bottom: 1vh;
 }
 
+.listed-detail-column{
+    margin-bottom: 1vh;
+    display: flex;
+    gap: .5vw;
+}
+
 .detail-wrapper textarea,
 .detail-wrapper input{
     border-radius: 15px;
@@ -118,6 +124,11 @@ body{
     outline: none;
     display: flex;
     align-items: center;
+}
+
+.detail-button.small{
+    padding: 0 .25vw;
+    font-size: 50px !important;
 }
 
 .detail-button:not(.loading):hover {

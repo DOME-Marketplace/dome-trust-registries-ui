@@ -206,11 +206,6 @@ const handleLogin = async () => {
     background-color: var(--dome-focused-blue);
 }
 
-/* .login-button.loading {
-    opacity: 0.7;
-    cursor: not-allowed;
-} */
-
 /* Login Info Messages */
 .login-info {
     margin-top: 20px;

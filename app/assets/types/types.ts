@@ -1,3 +1,11 @@
+/*
+IMPORTANT NOTE
+
+For these types to work as the body for the
+HTTP POST/PUT requests, their fields' names
+MUST match the ones defined in the API
+*/
+
 /// Trusted Registry basic information ///
 export type RegistryConfiguration = {
     id: string;
@@ -46,8 +54,9 @@ export type AttributeValidity = {
 }
 
 export type AttributeBody = {
-    credentials_type?: string;
-    valid_for?: AttributeValidity;
+    credentialsType?: string;
+    validFor?: AttributeValidity;
+    claims?: AttributeClaim[];
 }
 
 export type ClaimAllowedValue = {
@@ -57,20 +66,19 @@ export type ClaimAllowedValue = {
 
 export type AttributeClaim = {
     name?: string;
-    allowed_values?: ClaimAllowedValue[];
+    allowedValues?: ClaimAllowedValue[];
 }
 
 export type IssuerAttributes = {
     hash?: string;
-    issuer_type?: string;
+    issuerType?: string;
     body?: AttributeBody;
-    claims?: AttributeClaim[];
 }
 
 export type LEARCredentialIssuer = {
     did?: string;
     attributes?: IssuerAttributes[];
-    has_attributes?: boolean;
+    hasAttributes?: boolean;
 }
 
 
@@ -78,7 +86,7 @@ export type LEARCredentialIssuer = {
 export type Participant = {
     did?: string;
     attributes?: [];
-    has_attributes?: false;
+    hasAttributes?: false;
 }
 
 

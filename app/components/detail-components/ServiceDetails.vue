@@ -121,6 +121,7 @@
 <script lang="ts" setup>
 import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorWaiting, trimArray } from '~/assets/scripts/utils';
 import type { DetailsProps, Services } from '~/assets/types/types';
+import ListInput from '../form-components/ListInput.vue';
 
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');
@@ -311,8 +312,8 @@ const emit = defineEmits<{
 
     /* OFF: hundido (inset) */
     box-shadow:
-        inset 5px 5px 10px var(--dome-shadow-dark),
-        inset -5px -5px 10px var(--dome-shadow-light);
+        inset 2.5px 2.5px 2.5px var(--dome-shadow-dark),
+        inset -2.5px -2.5px 2.5px var(--dome-shadow-light);
 
     transition: all .3s ease;
 }

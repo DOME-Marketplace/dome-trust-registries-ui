@@ -37,6 +37,14 @@
                 @details-saved="stopLoading"
                 v-if="type === 'services'"
             />
+            <IssuerDetails
+                :registry="registry"
+                :url="url"
+                @close-details="closeSavedDetails"
+                @saving-details="startLoading"
+                @details-saved="stopLoading"
+                v-if="type === 'issuers'"
+            />
         </div>
     </div>
 </template>
@@ -46,6 +54,7 @@ import AccessNodeDetails from '~/components/detail-components/AccessNodeDetails.
 import ParticipantDetails from './detail-components/ParticipantDetails.vue';
 import SchemaDetails from './detail-components/SchemaDetails.vue';
 import ServiceDetails from './detail-components/ServiceDetails.vue';
+import IssuerDetails from './detail-components/IssuerDetails.vue';
 
 const router = useRouter();
 

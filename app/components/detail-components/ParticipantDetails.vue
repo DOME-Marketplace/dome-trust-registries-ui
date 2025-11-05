@@ -1,21 +1,16 @@
 <template>
     <div class="detail-container">
         <form class="detail-form">
-            <div class="detail-group">
-                <label>Participant DID</label>
-                <div class="detail-wrapper">
-                    <input
-                        type="text"
-                        id="participant_did"
-                        placeholder="Participant DID"
-                        v-model="participant.did"
-                        required
-                        :class="{ 'loading': isLoading, 'disabled': update_registry }"
-                        :disabled="update_registry || isLoading"
-                        :tabindex="update_registry ? -1 : 0"
-                    />
-                </div>
-            </div>
+            <SingleInput
+                label="DID"
+                id="participant_did"
+                placeholder="Participant DID"
+                v-model="participant.did"
+                required
+                :disabled="update_registry || isLoading"
+                :loading="isLoading"
+                :tabindex="update_registry ? -1 : 0"
+            />
         </form>
         <div class="detail-button-group">
             <button class="detail-button" :class="{ 'loading': isLoading }" v-on:click="saveRegistry">
@@ -31,6 +26,7 @@
 <script lang="ts" setup>
 import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorWaiting } from '~/assets/scripts/utils';
 import type { DetailsProps, Participant } from '~/assets/types/types';
+import SingleInput from '../form-components/SingleInput.vue';
 
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');
