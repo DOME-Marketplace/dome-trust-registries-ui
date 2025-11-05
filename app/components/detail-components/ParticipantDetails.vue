@@ -4,7 +4,7 @@
             <SingleInput
                 label="DID"
                 id="participant_did"
-                placeholder="Participant DID"
+                placeholder="DID"
                 v-model="participant.did"
                 required
                 :disabled="update_registry || isLoading"

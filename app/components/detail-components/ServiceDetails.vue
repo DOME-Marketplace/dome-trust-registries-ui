@@ -1,21 +1,16 @@
 <template>
     <div class="detail-container-big">
         <form class="detail-form">
-            <div class="detail-group">
-                <label>Client ID</label>
-                <div class="detail-wrapper">
-                    <input
-                        type="text"
-                        id="client_id"
-                        placeholder="Client ID"
-                        v-model="service.client_id"
-                        required
-                        :class="{ 'loading': isLoading, 'disabled': update_registry }"
-                        :disabled="update_registry || isLoading"
-                        :tabindex="update_registry ? -1 : 0"
-                    />
-                </div>
-            </div>
+            <SingleInput 
+                label="Client ID"
+                id="client_id"
+                placeholder="ID"
+                v-model="service.client_id"
+                required
+                :disabled="update_registry || isLoading"
+                :loading="isLoading"
+                :tabindex="update_registry ? -1 : 0"
+            />
             <div class="detail-group">
                 <label>Authorization Consent</label>
                 <label class="switch">
@@ -40,35 +35,24 @@
                     <span class="slider round"></span>
                 </label>
             </div>
-            <div class="detail-group">
-                <label>JWK URL</label>
-                <div class="detail-wrapper">
-                    <input
-                        type="text"
-                        id="jwk_url"
-                        placeholder="JWK URL"
-                        v-model="service.jwkSetUrl"
-                        required
-                        :class="{ 'loading': isLoading }"
-                        :disabled="isLoading"
-                    />
-                </div>
-            </div>
-            
-            <div class="detail-group">
-                <label>Token Endpoint Authentication <br> Signing Algorithm</label>
-                <div class="detail-wrapper">
-                    <input
-                        type="text"
-                        id="token_signing_alg"
-                        placeholder="Algorithm"
-                        v-model="service.tokenEndpointAuthenticationSigningAlgorithm"
-                        required
-                        :class="{ 'loading': isLoading }"
-                        :disabled="isLoading"
-                    />
-                </div>
-            </div>
+            <SingleInput 
+                label="JWK URL"
+                id="jwk_url"
+                placeholder="URL"
+                v-model="service.jwkSetUrl"
+                required
+                :disabled="isLoading"
+                :loading="isLoading"
+            />
+            <SingleInput 
+                label="Token Endpoint Authentication <br> Singing Algorithm"
+                id="token_signing_alg"
+                placeholder="Algorithm"
+                v-model="service.tokenEndpointAuthenticationSigningAlgorithm"
+                required
+                :disabled="isLoading"
+                :loading="isLoading"
+            />
             <ListInput
                 v-model="uris"
                 label="Redirect URIs"
@@ -122,6 +106,7 @@
 import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorWaiting, trimArray } from '~/assets/scripts/utils';
 import type { DetailsProps, Services } from '~/assets/types/types';
 import ListInput from '../form-components/ListInput.vue';
+import SingleInput from '../form-components/SingleInput.vue';
 
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');
@@ -282,14 +267,12 @@ const emit = defineEmits<{
     height: 34px;
 }
 
-/* Oculta checkbox nativo */
 .switch input{
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-/* Pista (fondo) con neu suave */
 .slider{
     position: absolute;
     inset: 0;
@@ -299,7 +282,6 @@ const emit = defineEmits<{
     cursor: pointer;
 }
 
-/* “Knob” */
 .slider::before{
     content: "";
     position: absolute;
@@ -309,8 +291,6 @@ const emit = defineEmits<{
     height: 26px;
     border-radius: 50%;
     background: var(--dome-blue-light);
-
-    /* OFF: hundido (inset) */
     box-shadow:
         inset 2.5px 2.5px 2.5px var(--dome-shadow-dark),
         inset -2.5px -2.5px 2.5px var(--dome-shadow-light);
@@ -318,12 +298,11 @@ const emit = defineEmits<{
     transition: all .3s ease;
 }
 
-/* Check dentro del knob */
 .slider::after{
     content: "✓";
     position: absolute;
     top: 50%;
-    left: 4px;               /* se ajusta junto con translateX del knob */
+    left: 4px;
     width: 26px;
     height: 26px;
     transform: translate(0, -50%);
@@ -336,7 +315,6 @@ const emit = defineEmits<{
     transition: all .3s ease;
 }
 
-/* ON: knob a la derecha, elevado (sin inset) y check visible */
 .switch input:checked + .slider::before{
     transform: translateX(26px);
     background: var(--dome-blue-light);
@@ -353,7 +331,6 @@ const emit = defineEmits<{
     background-color: var(--dome-focused-blue);
 }
 
-/* Focus y disabled */
 .switch input:focus + .slider{
     outline: 2px solid rgba(0,0,0,0.05);
     outline-offset: 2px;

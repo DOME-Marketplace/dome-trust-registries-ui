@@ -1,21 +1,16 @@
 <template>
     <div class="detail-container">
         <form class="detail-form">
-            <div class="detail-group">
-                <label>Schema ID</label>
-                <div class="detail-wrapper">
-                    <input
-                        type="text"
-                        id="schema_id"
-                        placeholder="Schema ID"
-                        v-model="schema.id"
-                        required
-                        :class="{ 'loading': isLoading, 'disabled': update_registry }"
-                        :disabled="update_registry || isLoading"
-                        :tabindex="update_registry ? -1 : 0"
-                    />
-                </div>
-            </div>
+            <single-input
+                label="Schema ID"
+                id="schema_id"
+                placeholder="ID"
+                v-model="schema.id"
+                required
+                :disabled="update_registry || isLoading"
+                :loading="isLoading"
+                :tabindex="update_registry ? -1 : 0"
+            />
             <div class="detail-group">
                 <label>Data</label>
                 <div class="detail-wrapper detail-file">
@@ -64,6 +59,7 @@
 <script lang="ts" setup>
 import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorWaiting } from '~/assets/scripts/utils';
 import type { DetailsProps, Schema } from '~/assets/types/types';
+import SingleInput from '../form-components/SingleInput.vue';
 
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');

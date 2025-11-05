@@ -193,7 +193,6 @@ const closeSavedDetails = () => {
     z-index: 9999;
 }
 .modal-card{
-    /* width: min(800px, 90vw); */
     background: var(--dome-blue);
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);

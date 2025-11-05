@@ -93,15 +93,11 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-
-
-/* Login Container */
 .login-container {
     width: 100%;
     max-width: 450px;
 }
 
-/* Login Box - Neumorphic Card */
 .login-box {
     background: var(--dome-blue-light);
     border-radius: 30px;
@@ -112,8 +108,6 @@ const handleLogin = async () => {
     text-align: center;
 }
 
-
-/* Form */
 .login-form {
     margin-top: 30px;
 }
@@ -164,7 +158,6 @@ const handleLogin = async () => {
     transform: translateY(1px);
 }
 
-/* Login Button */
 .login-button {
     width: 100%;
     padding: 16px;
@@ -206,7 +199,6 @@ const handleLogin = async () => {
     background-color: var(--dome-focused-blue);
 }
 
-/* Login Info Messages */
 .login-info {
     margin-top: 20px;
 }

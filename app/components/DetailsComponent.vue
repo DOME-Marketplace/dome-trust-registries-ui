@@ -123,7 +123,6 @@ const stopLoading = () => {
 
 .arrow-back{
     cursor: pointer;
-    /* position: absolute; */
     border-radius: 50%;
     outline: none;
     background-color: var(--dome-blue);
@@ -138,7 +137,6 @@ const stopLoading = () => {
 .arrow-back:not(.loading):hover,
 .arrow-back:not(.loading):focus,
 .arrow-back:not(.loading):active{
-    /* font-size: 35px; */
     box-shadow: 
         inset 5px 5px 10px var(--dome-shadow-dark),
         inset -5px -5px 10px var(--dome-shadow-light);

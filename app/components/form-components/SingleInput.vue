@@ -1,6 +1,6 @@
 <template>
     <div class="detail-group">
-        <label>{{ label }}</label>
+        <label v-if="label">{{ label }}</label>
         <div class="detail-wrapper">
             <input
                 :type="type"
@@ -20,7 +20,7 @@
 const props = withDefaults(
     defineProps<{
         modelValue?: string
-        label: string
+        label?: string
         placeholder?: string
         id?: string
         type?: string
