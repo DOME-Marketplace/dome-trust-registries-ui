@@ -45,7 +45,7 @@
                 :loading="isLoading"
             />
             <SingleInput 
-                label="Token Endpoint Authentication <br> Singing Algorithm"
+                label="Token Endpoint Authentication Singing Algorithm"
                 id="token_signing_alg"
                 placeholder="Algorithm"
                 v-model="service.tokenEndpointAuthenticationSigningAlgorithm"
