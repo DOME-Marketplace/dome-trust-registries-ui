@@ -57,7 +57,7 @@ export function removeItemAt<T>(index: number, array: T[]): T[]{
 export function formatStringToDate(value: string | undefined): string | undefined{
     if (!value) return
     try{
-        return value.split('T').at(0);
+        return value.split('T')?.at(0) || value;
     } catch (error) {
         console.error(error)
     }

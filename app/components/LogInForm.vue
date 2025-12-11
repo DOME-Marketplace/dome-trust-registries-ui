@@ -1,42 +1,21 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      
-        <a id="login-dome-website" href="https://dome-marketplace.eu/dashboard" target="_blank"><img src="@/assets/images/dome_logo_favicon.png" style="width: 35%;"/></a>
-        
-        <form @submit.prevent="handleLogin" class="login-form">
+        <a id="login-dome-website" href="https://dome-marketplace.eu/dashboard" target="_blank">
+            <img src="@/assets/images/dome_logo_favicon.png" style="width: 35%;"/>
+        </a>
         <div class="input-group">
-            <label>Username</label>
-            <div class="input-wrapper">
-            <input 
-                type="text" 
-                id="username" 
-                v-model="username" 
-                placeholder="Insert your username"
-                required
-            >
-            </div>
+            <button class="login-button" :class="{ 'loading': isLoading }" @click="handleLogin">
+                <span v-if="!isLoading">Log in</span>
+                <span v-else>Loading...</span>
+            </button>
         </div>
-        
         <div class="input-group">
-            <label>Password</label>
-            <div class="input-wrapper">
-            <input 
-                type="password" 
-                id="password" 
-                v-model="password" 
-                placeholder="Insert your password"
-                required
-            >
-            </div>
+            <button class="login-button" :class="{ 'loading': isLoading }" @click="handleRegistration">
+                <span v-if="!isLoading">Register</span>
+                <span v-else>Loading...</span>
+            </button>
         </div>
-        
-        <button type="submit" class="login-button" :class="{ 'loading': isLoading }">
-            <span v-if="!isLoading">Log in</span>
-            <span v-else>Loading...</span>
-        </button>
-        </form>
-        
         <div class="login-info" v-if="loginMessage">
         <p :class="loginMessageType">{{ loginMessage }}</p>
         </div>
@@ -47,48 +26,84 @@
 <script setup lang="ts">
 import { makeCursorWait, sleep, stopCursorWaiting } from '~/assets/scripts/utils';
 import { useRouter } from 'vue-router';
+import { useAlertStore, useAuthStore } from '~/assets/scripts/pinia';
+import { generatePkcePair, generateState, sendAuthRequest } from '~/assets/scripts/auth';
+import type { PKCERequest } from '~/assets/types/types';
 
-const username: Ref<string> = ref('')
-const password: Ref<string> = ref('')
 const isLoading: Ref<boolean> = ref(false)
 const loginMessage: Ref<string> = ref('')
 const loginMessageType: Ref<string> = ref('')
 
 const router = useRouter();
+const authStore = useAuthStore();
+const alertStore = useAlertStore();
+const config = useRuntimeConfig().public;
+
+
+onMounted(() => {
+    if(alertStore.message){
+        loginMessage.value = alertStore.message;
+        loginMessageType.value = 'error'
+    }
+    setTimeout(() => {
+        alertStore.clearMessage();
+        loginMessage.value = '';
+        loginMessageType.value = '';
+        },
+        5000
+    );
+});
 
 const handleLogin = async () => {
-  // Reset messages
   loginMessage.value = ''
   loginMessageType.value = ''
-  
-  // Validate inputs
-  if (!username.value || !password.value) {
-    return
-  }
-  
-  // Set loading state
   isLoading.value = true
   makeCursorWait();
-  
-  // Simulate API call
   try {
-    // Mocked login - simulate network delay
-    await sleep(2000);
-    
-    router.push('/trust-registry');
-    
+    const pkcePair = await generatePkcePair(Number(config.codeLength),config.codeAlgo as string);
+    const state = generateState(Number(config.stateLength));
+    console.info(`
+        CLIENT ID: ${config.clientId}
+        VERIFIER: ${config.verifier}
+        CODE CHALLENGE: ${pkcePair.code_challenge}
+        CODE VERIFIER: ${pkcePair.code_verifier}
+        CHALLENGE METHOD: ${config.challengeMethod}
+        CODE LENGTH: ${config.codeLength}
+        STATE LENGTH: ${config.stateLength}
+        STATE: ${state}
+        REDIRECT URI: ${window.location.origin}/validation/authorization
+    `)
+    const request: PKCERequest = {
+        client_id: config.clientId as string,
+        code_challenge: pkcePair.code_challenge,
+        response_type: 'code',
+        code_challenge_method: config.challengeMethod as string,
+        state: state,
+        redirect_uri: `${window.location.origin}/validation/authorization`
+    };
+    // Temporarily store
+    authStore.pkce = request;
+    authStore.code_verifier = pkcePair.code_verifier;
+    authStore.code_challenge = pkcePair.code_challenge;
+    await sendAuthRequest(
+        config.verifier as string,
+        request
+    );
   } catch (error) {
     loginMessage.value = error as string
     loginMessageType.value = 'error'
+    console.error(error)
   } finally {
     isLoading.value = false
     stopCursorWaiting();
-    
-    // Clear message after 3 seconds
     setTimeout(() => {
       loginMessage.value = ''
     }, 3000)
   }
+}
+
+const handleRegistration = () => {
+    window.open('https://dome-marketplace.github.io/onboarding/');
 }
 </script>
 

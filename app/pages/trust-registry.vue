@@ -64,14 +64,15 @@ const route = useRoute();
 const content = ref<InstanceType<typeof TrustRegistryContent> | null>(null);
 
 onMounted(() => {
-    host.value = trustedRegistry.host;
-    url.value = trustedRegistry['main-uri'];
-    trustedLists.value = trustedRegistry['trusted-lists'];
+    host.value = trustedRegistry().host;
+    url.value = trustedRegistry()['main-uri'];
+    trustedLists.value = trustedRegistry()['trusted-lists'];
     const hash = window.location.hash;
     if(hash) {
         selected.value = hash.split("#/")[1] ?? '';
     }else{
-        selected.value = trustedLists.value[0]?.id ?? '';
+        selected.value = (trustedLists.value && trustedLists.value.length > 0) 
+            ? trustedLists.value.at(0)?.id ?? '' : '';
     }
 
     window.location.hash = selected.value;
@@ -94,7 +95,7 @@ const getSelectedRegistry = (): RegistryConfiguration|undefined => {
 const openDetails = async(payload: { id?: string, type?: string }) => {
     const config = trustedLists.value.find(item => item.id === (payload.type ?? selected.value));
     if (!config) return;
-    detailsUrl.value = trustedRegistry.host + trustedRegistry['main-uri'] + config.uri;
+    detailsUrl.value = trustedRegistry().host + trustedRegistry()['main-uri'] + config.uri;
     detailsId.value = payload.id;
     detailsData.value = {};
     showDetails.value = true;

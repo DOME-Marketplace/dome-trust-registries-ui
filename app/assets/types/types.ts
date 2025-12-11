@@ -15,7 +15,7 @@ export type RegistryConfiguration = {
 
 /// Trusted Registry summary ///
 export type RegistrySummary = {
-    did: string;
+    id: string;
     href: string;
 }
 
@@ -100,6 +100,7 @@ export type Schema = {
 /// Trusted Services ///
 export type Services = {
     client_id?: string;
+    url?: string;
     redirectUris?: string[];
     scopes?: string[];
     clientAuthenticationMethods?: string[];
@@ -109,4 +110,27 @@ export type Services = {
     jwkSetUrl?: string;
     tokenEndpointAuthenticationSigningAlgorithm?: string;
     authorizationGrantTypes?: string[]
+}
+
+
+/// PKC Authorization Request ///
+export type PKCERequest = {
+    client_id: string;
+    code_challenge: string;
+    // Response type must always be 'code'
+    response_type: string;
+    code_challenge_method?: string;
+    redirect_uri?: string;
+    scope?: string;
+    state?: any;
+}
+
+
+/// Token Request ///
+export type TokenRequest = {
+    grant_type: string | undefined;
+    client_id: string | undefined;
+    code_verifier: string | undefined;
+    code: string | undefined;
+    redirect_uri: string | undefined;
 }

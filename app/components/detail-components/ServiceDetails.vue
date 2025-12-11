@@ -11,6 +11,15 @@
                 :loading="isLoading"
                 :tabindex="update_registry ? -1 : 0"
             />
+            <SingleInput
+                label="Base URL"
+                id="base_url"
+                placeholder="URL"
+                v-model="service.url"
+                :disabled="update_registry || isLoading"
+                :loading="isLoading"
+                :tabindex="update_registry ? -1 : 0"
+            />
             <div class="detail-group">
                 <label>Authorization Consent</label>
                 <label class="switch">

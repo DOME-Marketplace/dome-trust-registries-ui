@@ -12,5 +12,31 @@ export default defineNuxtConfig({
       ]
     }
   },
-  css: ['@/assets/base.css']
+  css: ['@/assets/base.css'],
+  modules: [
+    '@nuxtjs/robots',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt'
+  ],
+  runtimeConfig: {
+    public:{
+      apiMainUri: process.env.NUXT_PUBLIC_API_MAIN_URI || '',
+      apiHost: process.env.NUXT_PUBLIC_API_HOST || '',
+      apiHealth: process.env.NUXT_API_HEALTH || '',
+      clientId: process.env.NUXT_PUBLIC_CLIENT_ID || '',
+      verifier: process.env.NUXT_PUBLIC_VERIFIER || '',
+      codeLength: process.env.NUXT_PUBLIC_CODE_LENGTH || 64,
+      codeAlgo: process.env.NUXT_PUBLIC_CODE_ALGO || 'SHA-256',
+      stateLength: process.env.NUXT_PUBLIC_STATE_LENGTH || 16,
+      challengeMethod: process.env.NUXT_PUBLIC_CHALLENGE_METHOD || 'S256'
+    }
+  },
+  vite: {
+    build: {
+      minify: false
+    },
+    esbuild: {
+      drop: []
+    }
+  }
 })

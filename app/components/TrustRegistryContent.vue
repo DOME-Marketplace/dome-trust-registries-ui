@@ -20,8 +20,8 @@
                 />
             </div>
             <div v-if="data.total" class="registry-container">
-                <div class="registry-item" v-for="item in list" v-on:click="openRegistryDetails(item.did)" tabindex="0">
-                    <span><div class="material-symbols-outlined">document_search</div>&nbsp;&nbsp;<b>ID:</b>&nbsp;&nbsp;{{ item.did }}</span>
+                <div class="registry-item" v-for="item in list" v-on:click="openRegistryDetails(item.id)" tabindex="0">
+                    <span><div class="material-symbols-outlined">document_search</div>&nbsp;&nbsp;<b>ID:</b>&nbsp;&nbsp;{{ item.id }}</span>
                 </div>
             </div>
             <div v-else class="content-failure">
@@ -52,7 +52,7 @@ const totalPages: Ref<number> = ref(1);
 const getListFromAPI = async (configuration?: RegistryConfiguration): Promise<void> => {
     try{
         const config = configuration ?? props.registry_config
-        const url = trustedRegistry.host+trustedRegistry['main-uri']+config?.uri;
+        const url = trustedRegistry().host + trustedRegistry()['main-uri'] + config?.uri;
         const response = await apiRequest(
             url,
             'GET'

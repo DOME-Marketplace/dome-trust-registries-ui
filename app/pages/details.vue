@@ -35,9 +35,9 @@ const registry_url: Ref<string> = ref('');
 onBeforeMount(async() => {
     query_id.value = route.query.id as string;
     query_type.value = route.query.type as string;
-    trustedLists.value = trustedRegistry['trusted-lists'];
+    trustedLists.value = trustedRegistry()['trusted-lists'];
     configuration = trustedLists.value.find(item => item.id === query_type.value);
-    registry_url.value = trustedRegistry.host + trustedRegistry['main-uri'] + configuration?.uri;
+    registry_url.value = trustedRegistry().host + trustedRegistry()['main-uri'] + configuration?.uri;
     if(query_id.value) {
         editing.value = true;
         await getDetailsFromAPI();
