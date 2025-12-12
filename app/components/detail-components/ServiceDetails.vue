@@ -116,6 +116,7 @@ import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorW
 import type { DetailsProps, Services } from '~/assets/types/types';
 import ListInput from '../form-components/ListInput.vue';
 import SingleInput from '../form-components/SingleInput.vue';
+import { useAuthStore } from '~/assets/scripts/pinia';
 
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');
@@ -124,6 +125,7 @@ const isLoading: Ref<boolean> = ref(false);
 const props = defineProps<DetailsProps>();
 const route = useRoute();
 const router = useRouter();
+const token = useAuthStore().access_token;
 
 const getUris = (): string[] => {
     const raw = (service.value.redirectUris ?? []) as (string | string[] | null | undefined);
@@ -249,7 +251,10 @@ const saveRegistry = async() => {
         const response = await apiRequest(
             target_url,
             method,
-            service.value
+            service.value,
+            {
+                'Authorization': `Bearer ${token?.access_token}`
+            }
         );
         window.alert('Service saved successfully');
         emit('close-details');

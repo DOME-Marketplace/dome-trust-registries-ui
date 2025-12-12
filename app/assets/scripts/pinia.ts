@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { PKCERequest, TokenRequest } from "../types/types";
+import type { AccessToken, PKCERequest, TokenRequest } from "../types/types";
 
 export const useAuthStore = defineStore(
     'auth',
@@ -7,10 +7,10 @@ export const useAuthStore = defineStore(
         state: () => {
             return {
                 pkce: undefined as PKCERequest | undefined,
-                token: undefined as TokenRequest | undefined,
                 code_verifier: undefined as string | undefined,
                 code_challenge: undefined as string | undefined,
-                auth_code: undefined as string | undefined
+                auth_code: undefined as string | undefined,
+                access_token: undefined as AccessToken | undefined
             }
         },
         actions: {
@@ -18,9 +18,6 @@ export const useAuthStore = defineStore(
                 this.pkce = undefined;
                 this.code_verifier = undefined;
                 this.code_challenge = undefined;
-            },
-            clearValidationData() {
-                this.token = undefined;
                 this.auth_code = undefined;
             }
         },

@@ -27,6 +27,7 @@
 import { apiRequest, checkValidAttributes, makeCursorWait, pageBack, stopCursorWaiting } from '~/assets/scripts/utils';
 import type { DetailsProps, Participant } from '~/assets/types/types';
 import SingleInput from '../form-components/SingleInput.vue';
+import { useAuthStore } from '~/assets/scripts/pinia';
 
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');
@@ -35,6 +36,7 @@ const isLoading: Ref<boolean> = ref(false);
 const props = defineProps<DetailsProps>();
 const route = useRoute();
 const router = useRouter();
+const token = useAuthStore().access_token;
 
 watch(
     () => [props.url, props.registry],
@@ -72,7 +74,10 @@ const saveRegistry = async() => {
         const response = await apiRequest(
             target_url,
             method,
-            participant.value
+            participant.value,
+            {
+                'Authorization': `Bearer ${token?.access_token}`
+            }
         );
         window.alert('Participant saved successfully');
         emit('close-details');
@@ -98,7 +103,10 @@ const deleteRegistry = async() => {
         const response = await apiRequest(
             target_url,
             method,
-            participant.value
+            participant.value,
+            {
+                'Authorization': `Bearer ${token?.access_token}`
+            }
         );
         window.alert('Access Node saved successfully');
         emit('close-details');

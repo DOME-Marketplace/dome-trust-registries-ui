@@ -13,6 +13,7 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from 'vue-router';
 import { trustedRegistry } from '~/assets/config/trusted-registry';
+import { useAuthStore } from '~/assets/scripts/pinia';
 import { apiRequest, pageBack } from '~/assets/scripts/utils';
 import type { AccessNode, LEARCredentialIssuer, Participant, RegistryConfiguration, Schema, Services } from '~/assets/types/types';
 
@@ -20,6 +21,7 @@ const query_id: Ref<string> = ref('');
 const query_type: Ref<string> = ref('');
 const route = useRoute();
 const router = useRouter();
+const token = useAuthStore().access_token;
 let configuration: RegistryConfiguration | undefined;
 const trustedLists: Ref<RegistryConfiguration[]> = ref([]);
 const data: Ref<
@@ -47,7 +49,14 @@ onBeforeMount(async() => {
 const getDetailsFromAPI = async ():Promise<void> => {
     console.table(query_id);
     const url = registry_url.value + '/' + query_id.value;
-    data.value = await apiRequest(url, 'GET');
+    data.value = await apiRequest(
+        url, 
+        'GET',
+        undefined,
+        {
+            'Authorization': `Bearer ${token?.access_token}`
+        }
+    );
 }
 </script>
 

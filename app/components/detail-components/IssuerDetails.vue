@@ -177,6 +177,7 @@
 import { apiRequest, checkValidAttributes, formatStringToDate, formatStringToISO, makeCursorWait, removeItemAt, stopCursorWaiting, trimArray } from '~/assets/scripts/utils';
 import type { LEARCredentialIssuer, DetailsProps, IssuerAttributes, AttributeBody, AttributeClaim, ClaimAllowedValue } from '~/assets/types/types';
 import SingleInput from '../form-components/SingleInput.vue';
+import { useAuthStore } from '~/assets/scripts/pinia';
 
 const route = useRoute();
 const router = useRouter();
@@ -187,6 +188,7 @@ const issuer: Ref<LEARCredentialIssuer> = ref({});
 const update_registry: Ref<boolean> = ref(false);
 const url: Ref<string> = ref('');
 const isLoading: Ref<boolean> = ref(false)
+const token = useAuthStore().access_token;
 
 
 onMounted(() => {
@@ -236,7 +238,10 @@ const saveRegistry = async (): Promise<void> => {
         const response = await apiRequest(
             target_url,
             method,
-            issuer.value
+            issuer.value,
+            {
+                'Authorization': `Bearer ${token?.access_token}`
+            }
         )
 
         window.alert('Issuer saved successfully')

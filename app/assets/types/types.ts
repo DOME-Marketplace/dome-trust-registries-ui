@@ -134,3 +134,12 @@ export type TokenRequest = {
     code: string | undefined;
     redirect_uri: string | undefined;
 }
+
+/// Access Token ///
+export type AccessToken = {
+    access_token: string | undefined;
+    expires_in: number | undefined;
+    id_token: string | undefined;
+    scope: string | undefined;
+    token_type: string | undefined; 
+}
