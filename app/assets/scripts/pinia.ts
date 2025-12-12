@@ -10,7 +10,8 @@ export const useAuthStore = defineStore(
                 code_verifier: undefined as string | undefined,
                 code_challenge: undefined as string | undefined,
                 auth_code: undefined as string | undefined,
-                access_token: undefined as AccessToken | undefined
+                access_token: undefined as AccessToken | undefined,
+                timer_id: undefined as number | undefined
             }
         },
         actions: {
@@ -19,6 +20,20 @@ export const useAuthStore = defineStore(
                 this.code_verifier = undefined;
                 this.code_challenge = undefined;
                 this.auth_code = undefined;
+            },
+            startTokenTimer(){
+                if (this.timer_id) clearTimeout(this.timer_id);
+                this.timer_id = window.setTimeout(() => {
+                    alert("The token expired!");
+                    this.timer_id = undefined;
+                    useRouter().push('/login');
+                }, (this.access_token?.expires_in ?? 3600) * 1000);
+            },
+            cancelTimer(){
+                if(this.timer_id){
+                    clearTimeout(this.timer_id);
+                    this.timer_id = undefined;
+                }
             }
         },
         persist: {

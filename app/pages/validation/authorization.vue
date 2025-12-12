@@ -53,6 +53,7 @@ onMounted(async () => {
             throw new Error('Missing ID token');
         }
         authStore.access_token = token;
+        authStore.startTokenTimer();
         authStore.clearAuthData();
         router.push('/trust-registry')
        }catch(error: unknown){
