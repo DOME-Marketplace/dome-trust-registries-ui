@@ -26,6 +26,7 @@ export const useAuthStore = defineStore(
                 this.timer_id = window.setTimeout(() => {
                     alert("The token expired!");
                     this.timer_id = undefined;
+                    this.access_token = undefined;
                     useRouter().push('/login');
                 }, (this.access_token?.expires_in ?? 3600) * 1000);
             },
