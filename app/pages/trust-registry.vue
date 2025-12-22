@@ -66,6 +66,11 @@ const token = useAuthStore().access_token;
 const content = ref<InstanceType<typeof TrustRegistryContent> | null>(null);
 
 onMounted(() => {
+    if(token?.access_token == undefined){
+        window.alert('You must be logged!')
+        router.push('/login')
+        return;
+    }
     host.value = trustedRegistry().host;
     url.value = trustedRegistry()['main-uri'];
     trustedLists.value = trustedRegistry()['trusted-lists'];
@@ -105,7 +110,7 @@ const openDetails = async(payload: { id?: string, type?: string }) => {
     if(payload.id){
         loadingDetails.value = true;
         try{
-            detailsData.value = await apiRequest(
+            const request = await apiRequest(
                 detailsUrl.value + '/' + payload.id,
                 'GET',
                 undefined,
@@ -113,6 +118,7 @@ const openDetails = async(payload: { id?: string, type?: string }) => {
                     'Authorization': `Bearer ${token?.access_token}`
                 }
             );
+            console.log(request)
         } catch (error) {
             window.alert(error);
             showDetails.value = false;

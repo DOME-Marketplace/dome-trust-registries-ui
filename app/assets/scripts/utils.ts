@@ -9,7 +9,16 @@ export async function apiRequest<T = any>(url: string, query_method: any, query_
         {
             method: query_method,
             body: query_body,
-            headers: headers
+            headers: headers,
+            onResponse({response}) {
+                console.log(response)
+                if(!response.ok){
+                    window.alert(response.statusText);
+                }
+                if([401, 403].includes(response.status)){
+                    useRouter().push('/login')
+                }
+            }
         }
     );
     return response;    
