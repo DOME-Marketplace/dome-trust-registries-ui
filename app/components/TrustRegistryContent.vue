@@ -40,6 +40,7 @@ import type { RegistryConfiguration, RegistrySummary, RegistryPages } from '~/as
 import { trustedRegistry } from '~/assets/config/trusted-registry';
 import { apiRequest } from '~/assets/scripts/utils';
 import { useRouter, useRoute } from 'vue-router';
+import { useAuthStore } from '~/assets/scripts/pinia';
 
 const props = defineProps<{registry_config: RegistryConfiguration|undefined}>();
 const data: Ref<any> = ref();
@@ -48,6 +49,7 @@ const router = useRouter();
 const route = useRoute();
 const pages: Ref<RegistryPages> = ref({});
 const totalPages: Ref<number> = ref(1);
+const token = useAuthStore().access_token;
 
 const getListFromAPI = async (configuration?: RegistryConfiguration): Promise<void> => {
     try{
@@ -55,7 +57,12 @@ const getListFromAPI = async (configuration?: RegistryConfiguration): Promise<vo
         const url = trustedRegistry().host + trustedRegistry()['main-uri'] + config?.uri;
         const response = await apiRequest(
             url,
-            'GET'
+            'GET',
+            undefined,
+            {
+                'Authorization': `Bearer ${token?.access_token}`
+            }
+            
         );
         data.value = response;
         list.value = response.items ?? [];
@@ -74,7 +81,11 @@ const getListFromAPI = async (configuration?: RegistryConfiguration): Promise<vo
 const getFirstList = async () => {
     const response = await apiRequest(
         pages.value.first!.href,
-        'GET'
+        'GET',
+        undefined,
+        {
+            'Authorization': `Bearer ${token?.access_token}`
+        }
     );
     data.value = response;
     list.value = response.items ?? [];
@@ -89,7 +100,11 @@ const getFirstList = async () => {
 const getLastList = async () => {
     const response = await apiRequest(
         pages.value.last!.href,
-        'GET'
+        'GET',
+        undefined,
+        {
+            'Authorization': `Bearer ${token?.access_token}`
+        }
     );
     data.value = response;
     list.value = response.items ?? [];
@@ -104,7 +119,11 @@ const getLastList = async () => {
 const getNextList = async () => {
     const response = await apiRequest(
         pages.value.next!.href,
-        'GET'
+        'GET',
+        undefined,
+        {
+            'Authorization': `Bearer ${token?.access_token}`
+        }
     );
     data.value = response;
     list.value = response.items ?? [];
@@ -119,7 +138,11 @@ const getNextList = async () => {
 const getPrevList = async () => {
     const response = await apiRequest(
         pages.value.prev!.href,
-        'GET'
+        'GET',
+        undefined,
+        {
+            'Authorization': `Bearer ${token?.access_token}`
+        }
     );
     data.value = response;
     list.value = response.items ?? [];
@@ -136,7 +159,11 @@ const getIndexList = async (payload: { index: number }) => {
     url?.searchParams.set("page[after]", String(payload.index - 1));
     const response = await apiRequest(
         url!.href,
-        'GET'
+        'GET',
+        undefined,
+        {
+            'Authorization': `Bearer ${token?.access_token}`
+        }
     );
     data.value = response;
     list.value = response.items ?? [];

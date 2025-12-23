@@ -64,7 +64,8 @@ const handleLogin = async () => {
     const state = generateState(Number(config.stateLength));
     console.info(`
         CLIENT ID: ${config.clientId}
-        VERIFIER: ${config.verifier}
+        AUTH SERVER: ${config.authServer}
+        TOKEN SERVER: ${config.tokenServer}
         CODE CHALLENGE: ${pkcePair.code_challenge}
         CODE VERIFIER: ${pkcePair.code_verifier}
         CHALLENGE METHOD: ${config.challengeMethod}
@@ -86,7 +87,7 @@ const handleLogin = async () => {
     authStore.code_verifier = pkcePair.code_verifier;
     authStore.code_challenge = pkcePair.code_challenge;
     await sendAuthRequest(
-        config.verifier as string,
+        config.authServer as string,
         request
     );
   } catch (error) {

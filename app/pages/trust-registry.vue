@@ -46,6 +46,7 @@ import type { RegistryConfiguration } from '~/assets/types/types';
 import TrustRegistryContent from '~/components/TrustRegistryContent.vue';
 import { apiRequest } from '~/assets/scripts/utils';
 import DetailsComponent from '~/components/DetailsComponent.vue';
+import { useAuthStore } from '~/assets/scripts/pinia';
 
 const host: Ref<string> = ref('');
 const url: Ref<string> = ref('');
@@ -60,10 +61,16 @@ const loadingDetails: Ref<boolean> = ref(false);
 
 const router = useRouter();
 const route = useRoute();
+const token = useAuthStore().access_token;
 
 const content = ref<InstanceType<typeof TrustRegistryContent> | null>(null);
 
 onMounted(() => {
+    if(token?.access_token == undefined){
+        window.alert('You must be logged!')
+        router.push('/login')
+        return;
+    }
     host.value = trustedRegistry().host;
     url.value = trustedRegistry()['main-uri'];
     trustedLists.value = trustedRegistry()['trusted-lists'];
@@ -103,7 +110,15 @@ const openDetails = async(payload: { id?: string, type?: string }) => {
     if(payload.id){
         loadingDetails.value = true;
         try{
-            detailsData.value = await apiRequest(detailsUrl.value + '/' + payload.id, 'GET');
+            const request = await apiRequest(
+                detailsUrl.value + '/' + payload.id,
+                'GET',
+                undefined,
+                {
+                    'Authorization': `Bearer ${token?.access_token}`
+                }
+            );
+            console.log(request)
         } catch (error) {
             window.alert(error);
             showDetails.value = false;

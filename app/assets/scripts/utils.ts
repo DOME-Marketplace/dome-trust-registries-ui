@@ -2,13 +2,23 @@ export async function sleep(ms: number): Promise<void>{
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export async function apiRequest(url: string, query_method: any, query_body?: any): Promise<any>{
+export async function apiRequest<T = any>(url: string, query_method: any, query_body?: any, headers?: any): Promise<any>{
     if(url.length <= 0) throw "Empty URL"
-    const response = await $fetch(
+    const response = await $fetch<T>(
         url,
         {
             method: query_method,
-            body: query_body
+            body: query_body,
+            headers: headers,
+            onResponse({response}) {
+                console.log(response)
+                if(!response.ok){
+                    window.alert(response.statusText);
+                }
+                if([401, 403].includes(response.status)){
+                    useRouter().push('/login')
+                }
+            }
         }
     );
     return response;    
