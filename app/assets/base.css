@@ -1,0 +1,160 @@
+:root{
+    --dome-blue: rgb(45, 88, 167);
+    --dome-blue-dark: rgb(20, 39, 74);
+    --dome-blue-light: rgb(221, 230, 246);
+    --dome-shadow-light: rgba(250, 250, 255,.75);
+    --dome-focused-blue: rgba(200, 200, 230, .5);
+    --dome-shadow-dark: rgba(100,100,150,.5);
+    --error-color: rgb(200, 68, 68);
+}
+
+html, body{
+    height: 100%;
+    overflow-y: auto;
+    font-family: Blinker, system-ui, sans-serif;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dome-blue-light);
+    cursor: default;
+}
+
+.waiting,
+.waiting *{
+    cursor: wait !important;
+}
+
+
+.detail-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-container-big{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-form{
+    display: flex;
+    flex-direction: column;
+    padding: 0 2vw 0 2vw;
+}
+
+.detail-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.detail-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dome-blue-light);
+    margin-bottom: 10px;
+}
+
+.detail-file{
+    display: flex;
+    flex-direction: column;
+}
+
+.listed-detail{
+    margin-bottom: 1vh;
+}
+
+.listed-detail-column{
+    margin-bottom: 1vh;
+    display: flex;
+    gap: .5vw;
+}
+
+.detail-wrapper textarea,
+.detail-wrapper input{
+    border-radius: 15px;
+    padding: 14px 18px;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--dome-blue);
+    outline: none;
+    background: var(--dome-blue-light);
+    transition: all 0.3s ease;
+}
+
+.detail-wrapper input::placeholder {
+    color: #9CA3AF;
+}
+
+.detail-wrapper input:focus {
+    box-shadow: 
+        inset -5px -5px 10px var(--dome-shadow-light),
+        inset 5px 5px 10px var(--dome-shadow-dark);
+    transform: translateY(2px);
+}
+
+.detail-button-group{
+    display: flex;
+    gap: 2vw;
+    margin-top: 10px;    
+}
+
+.detail-button {
+    padding: 16px;
+    border: none;
+    border-radius: 15px;
+    background: var(--dome-blue-light);
+    color: var(--dome-blue);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    outline: none;
+    display: flex;
+    align-items: center;
+}
+
+.detail-button.small{
+    padding: 0 .25vw;
+    font-size: 50px !important;
+}
+
+.detail-button:not(.loading):hover {
+    box-shadow: 
+        inset 4px 4px 8px var(--dome-shadow-dark),
+        inset -4px -4px 8px var(--dome-shadow-light);
+    transform: translateY(2px);
+}
+
+.detail-button:not(.loading):active {
+    box-shadow: 
+        inset 7px 7px 12px var(--dome-shadow-dark),
+        inset -7px -7px 12px var(--dome-shadow-light);
+    transform: translateY(5px);
+}
+
+.detail-button:not(.loading):focus {
+    box-shadow: 
+        inset 4px 4px 8px var(--dome-shadow-dark),
+        inset -4px -4px 8px var(--dome-shadow-light);
+    transform: translateY(2px);
+}
+
+.loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.disabled{
+    opacity: 0.7;
+}
