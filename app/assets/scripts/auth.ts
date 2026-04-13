@@ -76,8 +76,6 @@ export async function sendAuthRequest(
     if(requestData.redirect_uri) url.searchParams.set('redirect_uri', requestData.redirect_uri);
     if(requestData.scope) url.searchParams.set('scope', requestData.scope);
     if(requestData.state) url.searchParams.set('state', requestData.state);
-    /*
-    return await apiRequest(url.toString(), 'GET');
-    */
-   window.location.replace(url.toString());
+    
+    window.location.assign(url.toString());
 }
